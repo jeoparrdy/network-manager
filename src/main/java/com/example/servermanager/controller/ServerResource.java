@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -26,7 +27,7 @@ public class ServerResource {
 
     private final ServerServiceImpl serverService;
 
-    @GetMapping("/list/")
+    @GetMapping("/list")
     public ResponseEntity<Response> getServers(){
         return ResponseEntity.ok(
                 Response.builder()
@@ -94,7 +95,7 @@ public class ServerResource {
         );
     }
     @GetMapping(path ="/image/{name}", produces = IMAGE_PNG_VALUE)
-    public byte[] getServerImage(@PathVariable("name") String name){
-        return Files.readAllBytes(Paths.get());
+    public byte[] getServerImage(@PathVariable("name") String name) throws IOException {
+        return Files.readAllBytes(Paths.get(System.getProperty("user.home") +"Downloads/images/" + name));
     }
 }
